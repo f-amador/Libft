@@ -76,67 +76,83 @@ make bonus  # Adds linked-list functions
 make clean  # Removes object files
 ```
 
-Pro Tip: Use `#include "libft.h"` in your projects after compiling!
+Here's the complete **Libft Function Guide** with all remaining functions organized clearly:
 
-## 📚 Libft Function Guide
+---
 
-### **1. Character Classification (`ctype`)**
-| Function | Description | Equivalent |
-|----------|-------------|------------|
-| `ft_isalpha` | Checks if character is alphabetic | `isalpha` |
-| `ft_isdigit` | Checks if character is a digit (0-9) | `isdigit` |
-| `ft_isalnum` | Checks if character is alphanumeric | `isalnum` |
-| `ft_isascii` | Checks if character is ASCII (0-127) | - |
-| `ft_isprint` | Checks if character is printable | `isprint` |
-| `ft_toupper` | Converts character to uppercase | `toupper` |
-| `ft_tolower` | Converts character to lowercase | `tolower` |
+## 📚 Complete Libft Function Reference
 
-### **2. String Manipulation (`string`)**
-| Function | Description | Key Logic |
-|----------|-------------|-----------|
-| `ft_strlen` | Returns string length | `while (str[i]) i++` |
-| `ft_strchr` | Finds first occurrence of character | `while (*s != c && *s)` |
-| `ft_strrchr` | Finds last occurrence of character | Reverse search |
-| `ft_strncmp` | Compares first `n` characters | `while (n-- && *s1 == *s2)` |
-| `ft_strnstr` | Locates substring | Nested loops with early exit |
-| `ft_strdup` | Duplicates string | `malloc + ft_strlcpy` |
+### **1. Character Classification (`ctype.h` replacements)**
+| Function | Description | Edge Cases Handled |
+|----------|-------------|--------------------|
+| `ft_isalpha` | Alphabet check (A-Z/a-z) | Non-ASCII returns 0 |
+| `ft_isdigit` | Digit check (0-9) | Ignores locale |
+| `ft_isalnum` | Alphanumeric check | Combines isalpha+isdigit |
+| `ft_isascii` | ASCII range check (0-127) | - |
+| `ft_isprint` | Printable char (32-126) | Excludes control chars |
 
-### **3. Memory Operations (`memory`)**
-| Function | Description | Key Feature |
-|----------|-------------|-------------|
-| `ft_memset` | Fills memory with constant byte | `while (len--) *ptr++ = c` |
-| `ft_memcpy` | Copies memory area | Handles overlap? ❌ |
-| `ft_memmove` | Safe copy for overlapping areas | Reverse copy if needed |
-| `ft_memchr` | Scans memory for character | `while (len-- && *ptr != c)` |
-| `ft_memcmp` | Compares memory areas | Byte-by-byte comparison |
-| `ft_bzero` | Zero-fills memory | `ft_memset(ptr, 0, len)` |
+### **2. String Manipulation**
+| Function | Description | Key Optimization |
+|----------|-------------|------------------|
+| `ft_strlen` | String length | Simple byte count |
+| `ft_strchr` | First char occurrence | Stops at null terminator |
+| `ft_strrchr` | Last char occurrence | Reverse traversal |
+| `ft_strncmp` | Safe string compare | Stops after `n` chars |
+| `ft_strnstr` | Substring search | Early termination |
+| `ft_strdup` | String duplication | Calls `malloc` |
+| `ft_strlcpy` | Safe string copy | Guarantees null-termination |
+| `ft_strlcat` | Safe concatenation | Prevents buffer overflow |
 
-### **4. Conversion Functions**
-| Function | Description | Edge Cases |
-|----------|-------------|------------|
-| `ft_atoi` | Converts string to integer | Overflow, whitespace, signs |
-| `ft_itoa` | Converts integer to string | Handles `INT_MIN` |
+### **3. Memory Operations**
+| Function | Description | Special Behavior |
+|----------|-------------|------------------|
+| `ft_memset` | Fill memory | Handles zero-length |
+| `ft_memcpy` | Copy memory | Undefined on overlap |
+| `ft_memmove` | Safe memory copy | Handles overlap |
+| `ft_memchr` | Locate byte in memory | Returns NULL if not found |
+| `ft_memcmp` | Compare memory | Unsigned byte comparison |
+| `ft_bzero` | Zero memory | Uses `ft_memset` |
+| `ft_calloc` | Allocate+zero memory | Checks for overflow |
 
-### **5. Linked Lists (Bonus)**
+### **4. Conversion & Output**
+| Function | Description | Special Cases |
+|----------|-------------|---------------|
+| `ft_atoi` | String to int | Skips whitespace, handles signs |
+| `ft_itoa` | Int to string | Handles INT_MIN |
+| `ft_putchar_fd` | Char output | Uses `write` directly |
+| `ft_putstr_fd` | String output | Handles NULL safely |
+| `ft_putendl_fd` | String+newline | - |
+| `ft_putnbr_fd` | Number output | Recursive implementation |
+
+### **5. String Utilities (42 Extras)**
+| Function | Description | Unique Feature |
+|----------|-------------|----------------|
+| `ft_substr` | Extract substring | Handles out-of-bounds |
+| `ft_strjoin` | Concatenate strings | NULL input → empty string |
+| `ft_strtrim` | Trim chars from ends | Uses charset lookup |
+| `ft_split` | Split string by char | Double-pointer magic |
+| `ft_strmapi` | Apply function to chars | Preserves original |
+| `ft_striteri` | Iterate with index | Modifies in-place |
+
+### **6. Linked Lists (Bonus)**
 ```c
 typedef struct s_list {
     void *content;
     struct s_list *next;
 } t_list;
 ```
-| Function | Description | Complexity |
-|----------|-------------|------------|
-| `ft_lstnew` | Creates new node | O(1) |
-| `ft_lstadd_front` | Adds node to list head | O(1) |
-| `ft_lstsize` | Counts list nodes | O(n) |
-| `ft_lstlast` | Returns last node | O(n) |
 
-### **6. Custom Utilities**
-| Function | Description | 42 Unique |
-|----------|-------------|-----------|
-| `ft_substr` | Extracts substring | Handles edge cases |
-| `ft_strjoin` | Concatenates two strings | Null-input safe |
-| `ft_strtrim` | Trims characters from ends | Uses lookup table |
-| `ft_split` | Splits string by delimiter | Double-pointer magic |
+| Function | Description | Time Complexity |
+|----------|-------------|-----------------|
+| `ft_lstnew` | Create node | O(1) |
+| `ft_lstadd_front` | Prepend node | O(1) |
+| `ft_lstsize` | Count nodes | O(n) |
+| `ft_lstlast` | Get tail node | O(n) |
+| `ft_lstadd_back` | Append node | O(n) |
+| `ft_lstdelone` | Delete node | Custom `del` function |
+| `ft_lstclear` | Clear list | Recursive free |
+| `ft_lstiter` | Apply function | Iterative |
+| `ft_lstmap` | Transform list | Creates new list |
 
+---
 
